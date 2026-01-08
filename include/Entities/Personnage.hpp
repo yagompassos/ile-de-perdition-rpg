@@ -5,6 +5,7 @@
 #include <vector>
 
 class Ennemi;
+class Objet;
 
 // Abstract
 class Personnage {
@@ -16,11 +17,11 @@ protected:
     int dexterite;
     int chance;
     int gold;
-    // std::vector<Objet*> inventaire;
+    std::vector<Objet*> inventaire;
 
 public:
     Personnage();
-    Personnage(int vm, int forc, int dex, int cha, int gld);
+    Personnage(int vm, int forc, int dex, int cha, int gld, int szInv);
     virtual ~Personnage() = default;
 
     // getters
@@ -31,13 +32,15 @@ public:
     int getDexterite();
     int getChance();
     int getGold();
-
+    
     // methods
     virtual void attaqueBasique(Ennemi* e);
     void recevoirDegats(int degat);
+    bool ajouterObjet(Objet* obj);
     void utiliserObjet(int index);
-    void ajouterGold(int goldGagne);
-
+    void curer(int v);
+    void enricher(int g);
+    void afficherInventaire ();
 };
 
 #endif

@@ -26,17 +26,24 @@ int main() {
 
     std::cout << p1.getNom() << " " << p1.getPrix() << std::endl;
     hero->ajouterObjet(&p1);
-    hero->afficherInventaire();
     hero->ajouterObjet(&p2);
-    hero->afficherInventaire();
     hero->ajouterObjet(&p3);
     hero->afficherInventaire();
     hero->ajouterObjet(&p4);
-    hero->afficherInventaire();
     hero->ajouterObjet(&p5);
     hero->afficherInventaire();
 
     // Gotta test Personnage::curer() and PotionSoin::utiliser() methods
+    hero->recevoirDegats(15);
+    std::cout << hero->getVie() << "/" << hero->getVieMax() <<std::endl;
+    p1.utiliser(hero);
+    std::cout << hero->getVie() << "/" << hero->getVieMax() <<std::endl;
     
+    hero->recevoirDegats(15);
+    std::cout << hero->getVie() << "/" << hero->getVieMax() <<std::endl;
+    hero->utiliserObjet(3); // index de 0->3 except pour le voleur 
+    std::cout << hero->getVie() << "/" << hero->getVieMax() <<std::endl;
+    hero->afficherInventaire();
+
     return 0;
 }

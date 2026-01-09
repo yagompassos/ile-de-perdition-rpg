@@ -11,7 +11,7 @@ int main() {
     Personnage *hero = nullptr;
     Gobelin g1;
 
-    std::cout << "Ile de Perdition" << std::endl;
+    std::cout << "Marais de Perdition" << std::endl;
     std::cout << "Jouer comme:" << std::endl;
     std::cout << "1. Guerrier" << std::endl;
     std::cout << "2. Mage" << std::endl;

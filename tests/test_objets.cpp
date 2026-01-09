@@ -10,7 +10,7 @@ int main() {
     Personnage *hero = nullptr;
     PotionSoin p1, p2, p3, p4, p5;
 
-    std::cout << "Ile de Perdition" << std::endl;
+    std::cout << "Marais de Perdition" << std::endl;
     std::cout << "Jouer comme:" << std::endl;
     std::cout << "1. Guerrier" << std::endl;
     std::cout << "2. Mage" << std::endl;

@@ -1,4 +1,4 @@
-#include "Core/Random.hpp"
+#include "Core/Des.hpp"
 #include <random>
 #include <stdexcept>
 #include <algorithm>
@@ -11,12 +11,17 @@ namespace {
     }
 }
 
-int Random::entier(int min, int max) {
+int Des::entier(int min, int max) {
     std::uniform_int_distribution<> dist(min, max);
     return dist(generateur());
 }
 
-std::vector<int> Random::entiersDistincts(int min, int max, int quantite) {
+int Des::D4(){ return entier(1,4); }
+int Des::D6(){ return entier(1,6); }
+int Des::D10(){ return entier(1,10); }
+int Des::D20(){ return entier(1,20); }
+
+std::vector<int> Des::entiersDistincts(int min, int max, int quantite) {
     int taille = max - min + 1;
     if (quantite > taille) {
         throw std::invalid_argument("Quantité trop grande pour la plage donnée");

@@ -10,6 +10,9 @@ Case::Case(Objet* obj) : goldTrouve(0), objet(obj), ennemi(nullptr), visite(fals
 Case::Case(Ennemi* enn) : goldTrouve(0), objet(nullptr), ennemi(enn), visite(false){}
 Case::~Case(){}
 
+Ennemi* Case::getEnnemi(){ return ennemi; }
+Objet* Case::getObjet(){ return objet; } 
+
 bool Case::estVisite() { return visite; }
 void Case::marquerVisite() { visite = true; }
 

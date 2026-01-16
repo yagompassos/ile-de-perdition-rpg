@@ -26,12 +26,13 @@ public:
     void lancer();
     void bouclePreJeu();
     void boucleExploration();
-    void boucleAttaque();
+    void boucleCombat();
     void GameOver();
     void afficherOptionsPreJeu() ;
     void afficherOptionsExploration();
     void animationDes();
     void afficherActionsMarchand();
+    void afficherActionsCombat();
     void afficherTitre();
     int getXJoueur();
     int getYJoueur();

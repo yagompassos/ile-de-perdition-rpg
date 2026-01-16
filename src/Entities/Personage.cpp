@@ -1,7 +1,7 @@
 #include "Entities/Personnage.hpp"
 #include "Entities/Ennemi.hpp"
 #include "Items/Objet.hpp" 
-#include <iostream>
+#include "Core/Des.hpp"
 
 Personnage::Personnage(){};                                                                                                                                // Here we create a 4 size pointer vector with all null pointers
 Personnage::Personnage(int vm, int forc, int dex, int cha, int gld, int szInv) : vieMax(vm), vie(vm), force(forc), dexterite(dex), chance(cha), gold(gld), inventaire(szInv, nullptr) {}
@@ -14,6 +14,30 @@ int Personnage::getGold() { return gold; }
 
 // to override
 void Personnage::attaqueBasique(Ennemi* e){}
+
+bool Personnage::fuir() {
+    int d20 = Des::D20();
+std::cout << d20 ;
+    
+    if (d20 == 1) {
+        std::cout << std::endl<< "FAIL!, vous vous avez raté la fuite" << std::endl;
+        return false;
+    }
+
+    int chanceTotal = d20+(d20*chance/100);
+    
+    std::cout << " + chance ("<< chance <<"%) = " << chanceTotal << std::endl;
+    
+    if (chanceTotal >=20){
+        std::cout<< "Fuite parfait, t'as disparu et l'ennemi pense avoir mangé quelque champignon gâté." << std::endl;
+        return true;
+    } else if (chanceTotal >=15 ){
+        std::cout<< "Fuite, l'ennemi the cherce encore mais t'as bien fuit." << std::endl;
+        return true;
+    } 
+    std::cout<< "Tu ne vas nulle part. " << std::endl;
+    return false;
+}
 
 void Personnage::recevoirDegats(int degat) {
     if (degat < vie)

@@ -54,6 +54,7 @@ void Jeu::lancer(){
                 boucleExploration();
                 break;
             case EtatJeu::Combat:
+                boucleCombat();
                 break;
             case EtatJeu::GameOver:
                 break;
@@ -86,6 +87,7 @@ void Jeu::bouclePreJeu() {
 void Jeu::boucleExploration() {
     int op, subOp, tirage;
     char moveCmd;
+    Case caseActuel;
 
     afficherTitre();
     joueur->afficherStats();
@@ -95,6 +97,7 @@ void Jeu::boucleExploration() {
 
     std::cin >> op;
     switch (op){
+        // OPTION 1. BOUGER 
         case 1:
             afficherTitre();
             joueur->afficherStats();
@@ -103,7 +106,7 @@ void Jeu::boucleExploration() {
             std::cout << "Appuyer ENTER pour Lancer le Des 4" << std::endl;
             std::cin.ignore();
             getchar();
-
+            // lancement de dés
             afficherTitre();
             joueur->afficherStats();
             afficherPlateau();
@@ -111,6 +114,7 @@ void Jeu::boucleExploration() {
             animationDes();
             tirage = Des::D4();
             std::cout << tirage << std::endl;
+            // mouvementation
             while (tirage>0)
             {
                 afficherTitre();
@@ -120,31 +124,47 @@ void Jeu::boucleExploration() {
                 std::cout << "Appuyez sur WASD pour bouger." << std::endl;
                 std::cout << "Vous avez " << tirage << " mouvements." << std::endl;
                 std::cin >> moveCmd;
-                switch (moveCmd) 
-                {
-                case 'w':
-                    if(deplacerJoueur(xJoueur, yJoueur+1 ))
-                        tirage--;
-                    break;
-                case 'd':
-                    if(deplacerJoueur(xJoueur+1, yJoueur))
-                        tirage--;
-                    break;
-                case 's':
-                    if (deplacerJoueur(xJoueur, yJoueur-1))
-                    tirage--;
-                    break;
-                case 'a':
-                    if (deplacerJoueur(xJoueur-1, yJoueur))
-                    tirage--;
-                    break;
+                switch (moveCmd) {
+                    case 'w':
+                        if(deplacerJoueur(xJoueur, yJoueur+1 ))
+                            tirage--;
+                        break;
+                    case 'd':
+                        if(deplacerJoueur(xJoueur+1, yJoueur))
+                            tirage--;
+                        break;
+                    case 's':
+                        if (deplacerJoueur(xJoueur, yJoueur-1))
+                            tirage--;
+                        break;
+                    case 'a':
+                        if (deplacerJoueur(xJoueur-1, yJoueur))
+                            tirage--;
+                        break;
                 }
             }
+            // Verifie si la case arrivé a quelque chose
+            caseActuel = plateau.getCase(xJoueur, yJoueur);
+            if (caseActuel.contientEnnemi()) {
+                afficherTitre();
+                std::cout << std::endl<< std::endl<< std::endl << "DANGER! " << caseActuel.getEnnemi()->getRace() << "!" << std::endl;
+                std::cout << "Appuyez sur ENTER pour entrer en combat." << std::endl;
+                std::cin.ignore();
+                getchar();
+                etatJeu = EtatJeu::Combat;
+            } else if (caseActuel.contientObjet()) {
+                afficherTitre();
+                std::cout << std::endl<< std::endl<< std::endl << "Vous avez trouvez un " << std::endl;
+                std::cout << "Appuyez sur ENTER pour ajouter au inventaire." << std::endl;
+                std::cin.ignore();
+                getchar();
+            }
             break;
-        case 2:
-            // AFFICHER INVENTAIRE
+
+            // OPTION 2. AFFICHER INVENTAIRE
+        case 2: 
             do {
-                std::cout << "\033[2J\033[1;1H";
+                afficherTitre();
                 joueur->afficherStats();
                 joueur->afficherInventaire();
                 
@@ -154,14 +174,15 @@ void Jeu::boucleExploration() {
                     joueur->utiliserObjet(subOp-1);
             } while(subOp != 0);
             break;
+            // OPTION 3. OUVRIR MARCHAND
         case 3:
-            // OUVRIR MARCHAND
             joueur->enricher(10);
             joueur->recevoirDegats(15);
             do {
-                std::cout << "\033[2J\033[1;1H";
+                afficherTitre();
                 joueur->afficherStats();
                 marchand.afficher();
+                afficherActionsMarchand();
                 std::cin >> subOp;
                 if (subOp>=1 && subOp<=5)
                     marchand.vendre(subOp, joueur);
@@ -173,6 +194,79 @@ void Jeu::boucleExploration() {
         default:
             break;
     }
+}
+
+void Jeu::boucleCombat(){
+    Case caseActuel = plateau.getCase(xJoueur, yJoueur);
+    Ennemi *ennemi = caseActuel.getEnnemi();
+    int op, tirage, recompense;
+    bool sortie;
+
+    do {
+        afficherTitre();
+        ennemi->afficherStats();
+        joueur->afficherStats();
+        afficherActionsCombat();
+        std::cin >> op;
+        switch (op) {
+            case 1:
+                afficherTitre();
+                ennemi->afficherStats();
+                joueur->afficherStats();
+                std::cout << "\tAttaque Basique!"<< std::endl;
+                std::cout << "\tAppuyer ENTER pour Lancer le Des 20" << std::endl;
+                std::cin.ignore();
+                getchar();
+                //affichage des
+                afficherTitre();
+                ennemi->afficherStats();
+                joueur->afficherStats();
+                std::cout << std::endl;
+                animationDes();
+                joueur->attaqueBasique(ennemi);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                afficherTitre();
+                ennemi->afficherStats();
+                joueur->afficherStats();
+                std::cout << "\tTu essaie de Fuir!" << std::endl;
+                std::cout << "\tAppuyer ENTER pour Lancer le Des 20" << std::endl;
+                std::cin.ignore();
+                getchar();
+                //affichage des
+                afficherTitre();
+                ennemi->afficherStats();
+                joueur->afficherStats();
+                std::cout << std::endl;
+                animationDes();
+                sortie= joueur->fuir();
+                etatJeu = EtatJeu::Exploration;
+                std::cout << "\tAppuyer ENTER pour continuer" << std::endl;
+                std::cin.ignore();
+                getchar();
+                break;
+            }
+
+            if ( !ennemi->estVivant() ){
+                sortie=true;
+                recompense = ennemi->getRecompenseOr();
+                etatJeu = EtatJeu::Exploration;
+                joueur->enricher(recompense);
+                caseActuel.retirerEnnemi();
+                std::cout << std::endl;
+                std::cout << "\tYou killed them all!" << std::endl;
+                std::cout << "\t+" << recompense << Icone::GOLD << std::endl;
+                std::cout << std::endl;
+                std::cout << "\tAppuyer ENTER pour continuer!" << std::endl;
+                std::cin.ignore();
+                getchar();
+            }
+    } while(!sortie);
+            
 }
 
 void Jeu::afficherOptionsPreJeu() {
@@ -198,6 +292,13 @@ void Jeu::afficherActionsMarchand(){
     std::cout << "\t\tOption: " ;
 }
 
+void Jeu::afficherActionsCombat(){
+    std::cout << "================================================ ACTIONS ================================================" << std::endl << std::endl;
+    std::cout << "\t1. Attaque basique \t 2. Attaque Fort \t 3. Inventaire \t 4. Fuir " << std::endl << std::endl;
+    std::cout << "=========================================================================================================" << std::endl;
+    std::cout << "\t\tOption: " ;
+}
+
 void Jeu::animationDes() {
     std::cout << "Lancement des dés";
     std::cout.flush();
@@ -215,6 +316,7 @@ void Jeu::afficherTitre() {
     std::cout << "\033[2J\033[1;1H";
     std::cout << "=========================================== MARAIS DE LA PERDITION ===========================================" << std::endl << std::endl;
 }
+
 
 bool Jeu::estCaseVisible(int x, int y) const {
     int dx = std::abs(x - xJoueur);

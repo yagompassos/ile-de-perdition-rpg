@@ -3,9 +3,19 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 class Ennemi;
 class Objet;
+
+/*
+vieMax = 0-100;
+vie commence en vieMax, se perd avec les degats d'ennemi
+force 0-100;
+dexterite: 0-100
+chance: 0-100%
+gold: l'argent, commence a 2 et peut monter au inf
+*/
 
 // Abstract
 class Personnage {
@@ -35,6 +45,7 @@ public:
     
     // methods
     virtual void attaqueBasique(Ennemi* e);
+    bool fuir();
     void recevoirDegats(int degat);
     bool ajouterObjet(Objet* obj);
     void curer(int v);

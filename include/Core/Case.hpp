@@ -18,6 +18,11 @@ public:
     Case(Objet* obj);
     Case(Ennemi* enn);
     virtual ~Case();
+
+    //getters
+    Ennemi* getEnnemi();
+    Objet* getObjet();
+
     bool estVide();
     bool estVisite();
     void marquerVisite();

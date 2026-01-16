@@ -1,5 +1,6 @@
 #include "Entities/Ennemi.hpp"
 #include "Entities/Personnage.hpp"
+#include <iostream>
 
 Ennemi::Ennemi(){};
 Ennemi::Ennemi(std::string race, int vieMax, int force, int recompenseOr, bool volable) : race(race), vieMax(vieMax), vie(vieMax), force(force), recompenseOr(recompenseOr), volable(volable) {};
@@ -8,6 +9,17 @@ Ennemi::Ennemi(std::string race, int vieMax, int force, int recompenseOr, bool v
 // to be overriten
 void Ennemi::attaquer(Personnage* hero){}
 void Ennemi::afficher() {}
+
+void Ennemi::afficherStats(){
+    std::cout << std::endl << std::endl;
+    std::cout << "\t+------ "<< race <<" -----+" << std::endl << std::endl;
+    std::cout << "\t\tHP: " << vie << "/" << vieMax<< std::endl;
+    std::cout << "\t\tForce: " << force << std::endl;
+    std::cout << "\t\trecompense: " << recompenseOr;
+    std::cout << std::endl << std::endl;
+    std::cout << "\t+-------------------+" << std::endl << std::endl;
+
+}
 
 void Ennemi::recevoirDegats(int degat) {
     if (degat < vie)

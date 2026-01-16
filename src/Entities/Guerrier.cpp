@@ -1,9 +1,31 @@
 #include "Entities/Guerrier.hpp"
 #include "Entities/Ennemi.hpp"
+#include "Core/Des.hpp"
 
 //                              vm frc dex cha gld sizeInventory
-Guerrier::Guerrier() : Personnage(30, 28, 3, 8, 3, 4) {}
+Guerrier::Guerrier() : Personnage(80, 20, 8, 30, 3, 4) {}
 
 void Guerrier::attaqueBasique(Ennemi* e) {
-    e->recevoirDegats(7);
+    int d20 = Des::D20();
+    std::cout << d20 ;
+    
+    if (d20 == 1) {
+        std::cout << std::endl<< "FAIL!, vous vous avez trébuché et raté l'attaque" << std::endl;
+        return;
+    }
+
+    int chanceTotal = d20+(d20*chance/100);
+    
+    std::cout << " + chance ("<< chance <<"%) = " << chanceTotal << std::endl;
+    
+    if (chanceTotal >=19){
+        std::cout<< "Attaque Critique! Dégats(x1.8) = " << force*1.8 << std::endl;
+        e->recevoirDegats(force*1.8);
+    } else if (chanceTotal >=10 ){
+        std::cout<< "Attaque! Dégats = " << force << std::endl;
+        e->recevoirDegats(force);
+    } else {
+        std::cout<< "Attaque faible! Dégats(x0.7) = " << force*0.7 << std::endl;
+        e->recevoirDegats(force*0.7);
+    }
 }

@@ -1,16 +1,17 @@
-#ifndef GUERRIER_H
-#define GUERRIER_H
+#ifndef VOLEUR_H
+#define VOLEUR_H
 
 #include "Entities/Personnage.hpp"
 
 class Ennemi;
 
-class Guerrier : public Personnage {
+class Voleur : public Personnage {
 public:
-    Guerrier();
+    Voleur();
     void attaqueBasique(Ennemi* e) override;
     void habiliteSpeciale(Ennemi *e) override;
     std::string getEmoji() const override;
+
 };
 
 #endif

@@ -47,7 +47,7 @@ void Plateau::afficher(int xJoueur, int yJoueur){
         std::cout << "\t";
         for (int x=0; x<largeur; x++) {
             if (x==xJoueur && y==yJoueur)
-                std::cout << Icone::JOUEUR;
+                std::cout << Icone::GUERRIER;
             else
                 grille[x][y].afficher(true);
             std::cout << "    ";

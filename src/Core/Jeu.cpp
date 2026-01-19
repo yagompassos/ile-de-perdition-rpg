@@ -1,5 +1,7 @@
 #include "Core/Jeu.hpp"
 #include "Entities/Guerrier.hpp"
+#include "Entities/Mage.hpp"
+#include "Entities/Voleur.hpp"
 #include "Entities/Gobelin.hpp"
 #include "Core/Des.hpp"
 #include "Core/Case.hpp"
@@ -19,7 +21,7 @@ void Jeu::afficherPlateau(){
         std::cout << "\t";
         for (int x = 0; x < plateau.getLargeur(); x++) {
             if (x==xJoueur && y==yJoueur)
-                std::cout << Icone::JOUEUR;
+                std::cout << joueur->getEmoji();
             else {
                 bool visible = estCaseVisible(x, y);
                 plateau.getCase(x, y).afficher(visible);
@@ -59,7 +61,6 @@ void Jeu::lancer(){
                 break;
             case EtatJeu::GameOver:
                 break;
-            
         }
     } while(etatJeu != EtatJeu::Quitter);
 
@@ -71,17 +72,40 @@ void Jeu::lancer(){
 
 void Jeu::bouclePreJeu() {
     int op;
-    Personnage *hero = nullptr;
-    
+/*
+    std::cout << "\033[2J\033[1;1H";
+    std::cout << std::endl << "\t\t\t\t";
+    for (int i=0; i<5; i++){
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+        std::cout << ".";
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::cout << "\033[2J\033[1;1H";
+    std::cout << "\t\t\tVous vous réveillez sur un île." << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+    std::cout << "\t\t\tVous etais là pour une raison, mais vous ne vous souvenez pas."<< std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+    std::cout << "\t\t\tIl y a des ennemis proche, fait gaffe."<< std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+    std::cout << "\033[2J\033[1;1H";
+*/
     afficherOptionsPreJeu();
     std::cin >> op;
     switch (op) {
         case 1:
-            std::cout << "Guerrier!" << std::endl;
-            hero = new Guerrier();
+            std::cout << "Guerrier! Bonne courage." << std::endl;
+            joueur = new Guerrier();
+            break;
+        case 2:
+            std::cout << "Mage! La magie est forte en vous" << std::endl;
+            joueur = new Mage();
+            break;
+        case 3:
+            std::cout << "Voleur! La guilde vous a bien preparé" << std::endl;
+            joueur = new Voleur();
             break;
     }
-    joueur = hero ;
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     etatJeu = EtatJeu::Exploration;
 }
 
@@ -127,11 +151,11 @@ void Jeu::boucleExploration() {
                 std::cin >> moveCmd;
                 switch (moveCmd) {
                     case 'w':
-                        if(deplacerJoueur(xJoueur, yJoueur+1 ))
+                        if (deplacerJoueur(xJoueur, yJoueur+1 ))
                             tirage--;
                         break;
                     case 'd':
-                        if(deplacerJoueur(xJoueur+1, yJoueur))
+                        if (deplacerJoueur(xJoueur+1, yJoueur))
                             tirage--;
                         break;
                     case 's':
@@ -167,16 +191,7 @@ void Jeu::boucleExploration() {
 
             // OPTION 2. AFFICHER INVENTAIRE
         case 2: 
-            do {
-                afficherTitre();
-                joueur->afficherStats();
-                joueur->afficherInventaire();
-                
-                std::cout << "0. Revenir" << std::endl;
-                std::cin >> subOp;
-                if (subOp >= 1 && subOp <=4)
-                    joueur->utiliserObjet(subOp-1);
-            } while(subOp != 0);
+           afficherInventaire();
             break;
             // OPTION 3. OUVRIR MARCHAND
         case 3:
@@ -203,7 +218,7 @@ void Jeu::boucleCombat(){
     int op, tirage, recompense;
 
     do {
-        rondJoueur(ennemi);
+        while (!rondJoueur(ennemi));
 
         if ( !ennemi->estVivant() ){
             recompense = ennemi->getRecompenseOr();
@@ -227,13 +242,27 @@ void Jeu::boucleCombat(){
     } while(etatJeu == EtatJeu::Combat);
 }
 
+void Jeu::afficherInventaire(){
+    int op;
+    do {
+        afficherTitre();
+        joueur->afficherStats();
+        joueur->afficherInventaire();
+        
+        std::cout << "0. Revenir" << std::endl;
+        std::cin >> op;
+        if (op >= 1 && op <=4)
+            joueur->utiliserObjet(op-1);
+    } while(op != 0);
+}
+
 void Jeu::afficherOptionsPreJeu() {
     std::cout << "\033[2J\033[1;1H";
-    std::cout << "Marais de Perdition" << std::endl;
-    std::cout << "Jouer comme:" << std::endl;
-    std::cout << "1. Guerrier" << std::endl;
-    std::cout << "2. Mage" << std::endl;
-    std::cout << "3. Voleur" << std::endl;
+    afficherTitre();
+    std::cout << "\t\tJouer comme:" << std::endl;
+    std::cout << "\t\t1. Guerrier" << std::endl;
+    std::cout << "\t\t2. Mage" << std::endl;
+    std::cout << "\t\t3. Voleur" << std::endl;
 }
 
 void Jeu::afficherOptionsExploration() {
@@ -286,8 +315,9 @@ bool Jeu::estCaseVisible(int x, int y) const {
 int Jeu::getXJoueur(){ return xJoueur; }
 int Jeu::getYJoueur(){ return yJoueur; }
 
-void Jeu::rondJoueur(Ennemi *ennemi) {
+bool Jeu::rondJoueur(Ennemi *ennemi) {
     int op;
+    bool termine;
 
     afficherTitre();
     ennemi->afficherStats();
@@ -314,10 +344,31 @@ void Jeu::rondJoueur(Ennemi *ennemi) {
             std::cout << std::endl << "\t ENTER pour continuer" << std::endl;
             std::cin.ignore();
             getchar();
+            return true;
             break;
         case 2:
+            afficherTitre();
+            ennemi->afficherStats();
+            joueur->afficherStats();
+            std::cout << "\tSPECIAL!"<< std::endl;
+            std::cout << "\tAppuyer ENTER pour Lancer le Des 20" << std::endl;
+            std::cin.ignore();
+            getchar();
+            //affichage des
+            afficherTitre();
+            ennemi->afficherStats();
+            joueur->afficherStats();
+            std::cout << std::endl;
+            animationDes();
+            joueur->habiliteSpeciale(ennemi);  
+            std::cout << std::endl << "\t ENTER pour continuer" << std::endl;
+            std::cin.ignore();
+            getchar();
+            return true;
             break;
         case 3:
+            afficherInventaire();
+            return false;
             break;
         case 4:
             afficherTitre();
@@ -338,9 +389,11 @@ void Jeu::rondJoueur(Ennemi *ennemi) {
                 std::cout << "\tAppuyer ENTER pour continuer" << std::endl;
                 std::cin.ignore();
                 getchar();
+                return true;
             }
             break;
-        }
+    }
+    return false;
 }
 
 void Jeu::rondEnnemi(Ennemi *ennemi) {

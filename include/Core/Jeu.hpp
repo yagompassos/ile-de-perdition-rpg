@@ -29,6 +29,7 @@ public:
     void boucleExploration();
     void boucleCombat();
     void GameOver();
+    void afficherInventaire();
     void afficherOptionsPreJeu() ;
     void afficherOptionsExploration();
     void animationDes();
@@ -38,7 +39,7 @@ public:
     int getXJoueur();
     int getYJoueur();
     bool estCaseVisible(int x, int y) const;
-    void rondJoueur(Ennemi *ennemi);
+    bool rondJoueur(Ennemi *ennemi);
     void rondEnnemi(Ennemi *ennemi);
 };
 

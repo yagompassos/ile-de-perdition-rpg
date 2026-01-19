@@ -24,14 +24,16 @@ protected:
     int vieMax;
     int vie;
     int force;
+    int pouvoir;
     int dexterite;
     int chance;
     int gold;
+    std::string nom;
     std::vector<Objet*> inventaire;
 
 public:
     Personnage();
-    Personnage(int vm, int forc, int dex, int cha, int gld, int szInv);
+    Personnage(int vm, int pouv, int forc, int dex, int cha, int gld, int szInv);
     virtual ~Personnage() = default;
 
     // getters
@@ -39,12 +41,18 @@ public:
     int getVieMax();
     int getVie();
     int getForce();
+    int getPouvoir();
     int getDexterite();
     int getChance();
     int getGold();
+    std::string getNom();
+    
+    void setNom(std::string nouveauNom);
     
     // methods
     virtual void attaqueBasique(Ennemi* e);
+    virtual void habiliteSpeciale(Ennemi *e);
+    virtual std::string getEmoji() const = 0;
     bool fuir();
     void recevoirDegats(int degat);
     bool estInventaireComplet();

@@ -26,6 +26,8 @@ public:
     int getForce();
     int getRecompenseOr();
 
+    void setVolable(bool vole);
+
     // methods
     virtual void attaquer(Personnage* hero);
     virtual void afficher();

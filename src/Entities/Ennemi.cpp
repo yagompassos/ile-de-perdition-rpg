@@ -41,3 +41,5 @@ int Ennemi::getVieMax() { return vieMax; }
 int Ennemi::getForce() { return force; }
 int Ennemi::getRecompenseOr() { return recompenseOr; }
 bool Ennemi::estVolable() { return volable; } 
+
+void Ennemi::setVolable(bool vole) { volable = vole; }

@@ -1,8 +1,10 @@
 #include <string>
 
 namespace Icone {
-    const std::string JOUEUR  = "🧙‍♂️"; 
-    const std::string GOBLIN   = "👺";
+    const std::string GUERRIER = "🧝🏻";
+    const std::string MAGE  = "🧙🏻"; 
+    const std::string VOLEUR  = "🧑🏻‍🌾";
+    const std::string GOBLIN   = "🧟";
     const std::string ORC      = "🧌​";
     const std::string DRAGON   = "🐲​";
     const std::string GOLD     = "💰";

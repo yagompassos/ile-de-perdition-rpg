@@ -6,7 +6,7 @@
 PotionSoin::PotionSoin() : Objet("Potion de Soin", 2){}
 
 void PotionSoin::utiliser(Personnage* hero) {
-    hero->curer(5);
+    hero->curer(20);
 }
 
 void PotionSoin::afficher() {

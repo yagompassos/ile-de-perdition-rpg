@@ -4,16 +4,21 @@
 #include "Core/Des.hpp"
 
 Personnage::Personnage(){};                                                                                                                                // Here we create a 4 size pointer vector with all null pointers
-Personnage::Personnage(int vm, int forc, int dex, int cha, int gld, int szInv) : vieMax(vm), vie(vm), force(forc), dexterite(dex), chance(cha), gold(gld), inventaire(szInv, nullptr) {}
+Personnage::Personnage(int vm, int forc, int pouv, int dex, int cha, int gld, int szInv) : vieMax(vm), vie(vm), force(forc), pouvoir(pouv), dexterite(dex), chance(cha), gold(gld), inventaire(szInv, nullptr) {}
 // Personnage::~Personnage(){};
 
+// getters
 int Personnage::getVieMax() { return vieMax; }
 int Personnage::getVie() { return vie; }
 int Personnage::getGold() { return gold; }
+std::string Personnage::getNom() { return nom; }
 
+// setters
+void Personnage::setNom(std::string nouveauNom) { nom = nouveauNom;}
 
 // to override
 void Personnage::attaqueBasique(Ennemi* e){}
+void Personnage::habiliteSpeciale(Ennemi* e){}
 
 bool Personnage::fuir() {
     int d20 = Des::D20();

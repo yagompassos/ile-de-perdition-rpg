@@ -1,9 +1,12 @@
 #include "Entities/Guerrier.hpp"
 #include "Entities/Ennemi.hpp"
 #include "Core/Des.hpp"
+#include "Core/icones.hpp"
 
-//                              vm frc dex cha gld sizeInventory
-Guerrier::Guerrier() : Personnage(80, 20, 8, 30, 3, 4) {}
+//                               vm frc pwr dex cha gld sizeInventory
+Guerrier::Guerrier() : Personnage(80, 20, 7, 8, 30, 3, 4) {}
+
+std::string Guerrier::getEmoji() const {return Icone::GUERRIER; }
 
 void Guerrier::attaqueBasique(Ennemi* e) {
     int d20 = Des::D20();
@@ -29,3 +32,5 @@ void Guerrier::attaqueBasique(Ennemi* e) {
         e->recevoirDegats(force*0.7);
     }
 }
+
+void Guerrier::habiliteSpeciale(Ennemi *e) {}

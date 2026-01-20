@@ -34,3 +34,20 @@ void Guerrier::attaqueBasique(Ennemi* e) {
 }
 
 void Guerrier::habiliteSpeciale(Ennemi *e) {}
+
+void Guerrier::afficherStats() {
+    std::cout << std::endl << std::endl;
+    std::cout << "------------------------------------------------ "<< getNom() <<" le Guerrier. ------------------------------------------------" << std::endl << std::endl;
+    std::cout << "\tHP: " << vie << "/" << vieMax;
+    std::cout << "\tForce: " << force;
+    std::cout << "\tChance:" << chance;
+    std::cout << "\tGold: " << gold << Icone::COIN;
+    std::cout << std::endl << std::endl;
+}
+
+void Guerrier::afficherActionsCombat(){
+    std::cout << "================================================== ACTIONS ==================================================" << std::endl << std::endl;
+    std::cout << "\t1. Attaque \t 2. Attaque Special \t 3. Inventaire \t 4. Fuir " << std::endl << std::endl;
+    std::cout << "=============================================================================================================" << std::endl;
+    std::cout << "\t\tOption: " ;
+}

@@ -59,3 +59,20 @@ void Mage::habiliteSpeciale(Ennemi *e) {
         this->recevoirDegats(4);
     }
 }
+
+void Mage::afficherStats() {
+    std::cout << std::endl << std::endl;
+    std::cout << "------------------------------------------------ "<< getNom() <<" le Mage. ------------------------------------------------" << std::endl << std::endl;
+    std::cout << "\tHP: " << vie << "/" << vieMax;
+    std::cout << "\tPouvoir: " << pouvoir;
+    std::cout << "\tChance:" << chance;
+    std::cout << "\tGold: " << gold << Icone::COIN;
+    std::cout << std::endl << std::endl;
+}
+
+void Mage::afficherActionsCombat(){
+    std::cout << "================================================== ACTIONS ==================================================" << std::endl << std::endl;
+    std::cout << "\t1. Attaque \t 2. Cure \t 3. Inventaire \t 4. Fuir " << std::endl << std::endl;
+    std::cout << "=============================================================================================================" << std::endl;
+    std::cout << "\t\tOption: " ;
+}

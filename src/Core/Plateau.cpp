@@ -3,11 +3,15 @@
 #include "Core/Des.hpp"
 #include "Entities/Gobelin.hpp"
 #include "Items/PotionSoin.hpp"
+#include "Items/Bouclier.hpp"
+#include "Items/Epee.hpp"
+#include "Items/Parchemin.hpp"
 #include "Core/icones.hpp"
 #include <iostream>
 
 // Constructeur
 Plateau::Plateau(int largeur, int hauteur): largeur(largeur), hauteur(hauteur) {
+    int tirage1, tirage2;
     grille.resize(largeur);
     for (int x = 0; x < largeur; x++) {
         grille[x].resize(hauteur);
@@ -15,20 +19,34 @@ Plateau::Plateau(int largeur, int hauteur): largeur(largeur), hauteur(hauteur) {
             if (x==0 && y==0)
                 grille[x][y] = Case(); // Cases du heros 
             else if (x==largeur-1 && y==hauteur-1) 
-                grille[x][y] = Case(); //CASE DU DRAGON
+                grille[x][y] = Case(); // CASE DU DRAGON
             else {
-                int tirage = Des::D10();
-                if (tirage<=3) {
+                tirage1 = Des::D10();
+                if (tirage1<=3) {
                     grille[x][y] = Case();
-                } else if (tirage>3 && tirage<=5) {
-                    Gobelin *e = new Gobelin();
+                } else if (tirage1>3 && tirage1<=5) { // case de ennemi
+                    tirage2 = Des::D10();
+                    Ennemi *e;
+                    if (tirage2 <=6)
+                        e = new Gobelin();
+                    else
+                        // e = new Orc();
                     grille[x][y] = Case(e);
-                } else if (tirage>5 && tirage<=7) {
-                    PotionSoin *o = new PotionSoin();
-                    grille[x][y] = Case(o);
-                } else if (tirage >7 && tirage<=8) {
+                } else if (tirage1>5 && tirage1<=7) { // case avec objet
+                    Objet *obj;
+                    tirage2 = Des::D10();
+                    if (tirage2 <=3)
+                        obj = new PotionSoin();
+                    else if (tirage2>3 && tirage2 <=5)
+                        obj = new Bouclier();
+                    else if (tirage2>5 && tirage2 <=7)
+                        obj = new Epee();
+                    else if (tirage2>7 && tirage2 <=10)
+                        obj = new Parchemin();
+                    grille[x][y] = Case(obj);
+                } else if (tirage1 >7 && tirage1<=8) { // case avec gold
                     grille[x][y] = Case(2);
-                } else {
+                } else {                            // case vide
                     grille[x][y] = Case();
                 }
             }

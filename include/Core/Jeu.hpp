@@ -34,7 +34,6 @@ public:
     void afficherOptionsExploration();
     void animationDes();
     void afficherActionsMarchand();
-    void afficherActionsCombat();
     void afficherTitre();
     int getXJoueur();
     int getYJoueur();

@@ -5,6 +5,7 @@
 
 Personnage::Personnage(){};                                                                                                                                // Here we create a 4 size pointer vector with all null pointers
 Personnage::Personnage(int vm, int forc, int pouv, int dex, int cha, int gld, int szInv) : vieMax(vm), vie(vm), force(forc), pouvoir(pouv), dexterite(dex), chance(cha), gold(gld), inventaire(szInv, nullptr), specialPret(true) {}
+Personnage::Personnage(std::string nom, int vm, int forc, int pouv, int dex, int cha, int gld, int szInv) : nom(nom), vieMax(vm), vie(vm), force(forc), pouvoir(pouv), dexterite(dex), chance(cha), gold(gld), inventaire(szInv, nullptr), specialPret(true) {}
 // Personnage::~Personnage(){};
 
 // getters
@@ -26,6 +27,8 @@ void Personnage::setSpecialPret(bool special) { specialPret = special; }
 // to override
 void Personnage::attaqueBasique(Ennemi* e){}
 void Personnage::habiliteSpeciale(Ennemi* e){}
+void Personnage::afficherStats() {}
+void Personnage::afficherActionsCombat() {}
 
 bool Personnage::fuir() {
     int d20 = Des::D20();
@@ -103,13 +106,6 @@ void Personnage::afficherInventaire(){
     std::cout << "======================" << std::endl;
 }
 
-void Personnage::afficherStats() {
-    std::cout << std::endl << std::endl;
-    std::cout << "------------------------------------------------ hero stats ------------------------------------------------" << std::endl << std::endl;
-    std::cout << "\tHP: " << vie << "/" << vieMax;
-    std::cout << "\t\tGold: " << gold;
-    std::cout << std::endl << std::endl;
-}
 
 bool Personnage::estInventaireComplet() {
     for (auto obj : inventaire){

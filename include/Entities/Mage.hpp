@@ -11,7 +11,8 @@ public:
     void attaqueBasique(Ennemi* e) override;
     void habiliteSpeciale(Ennemi *e) override;
     std::string getEmoji() const override;
-
+    void afficherStats() override;
+    void afficherActionsCombat() override;
 };
 
 #endif

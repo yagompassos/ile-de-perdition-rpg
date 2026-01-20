@@ -279,12 +279,7 @@ void Jeu::afficherActionsMarchand(){
     std::cout << "\t\tOption: " ;
 }
 
-void Jeu::afficherActionsCombat(){
-    std::cout << "================================================== ACTIONS ==================================================" << std::endl << std::endl;
-    std::cout << "\t1. Attaque basique \t 2. Attaque Fort \t 3. Inventaire \t 4. Fuir " << std::endl << std::endl;
-    std::cout << "=============================================================================================================" << std::endl;
-    std::cout << "\t\tOption: " ;
-}
+
 
 void Jeu::animationDes() {
     std::cout << "Lancement des dés";
@@ -322,7 +317,7 @@ bool Jeu::rondJoueur(Ennemi *ennemi) {
     afficherTitre();
     ennemi->afficherStats();
     joueur->afficherStats();
-    afficherActionsCombat();
+    joueur->afficherActionsCombat();
     std::cin >> op;
 
     switch (op) {

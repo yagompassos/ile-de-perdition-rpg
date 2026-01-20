@@ -20,7 +20,7 @@ gold: l'argent, commence a 2 et peut monter au inf
 // Abstract
 class Personnage {
 protected:
-    // std::string nom;
+    std::string nom;
     int vieMax;
     int vie;
     int force;
@@ -29,12 +29,12 @@ protected:
     int chance;
     int gold;
     bool specialPret;
-    std::string nom;
     std::vector<Objet*> inventaire;
 
 public:
     Personnage();
     Personnage(int vm, int pouv, int forc, int dex, int cha, int gld, int szInv);
+    Personnage(std::string nom, int vm, int pouv, int forc, int dex, int cha, int gld, int szInv);
     virtual ~Personnage() = default;
 
     // getters
@@ -59,6 +59,9 @@ public:
     virtual void attaqueBasique(Ennemi* e);
     virtual void habiliteSpeciale(Ennemi *e);
     virtual std::string getEmoji() const = 0;
+    virtual void afficherStats();
+    virtual void afficherActionsCombat();
+
     bool fuir();
     void recevoirDegats(int degat);
     bool estInventaireComplet();
@@ -68,7 +71,6 @@ public:
     void enricher(int g);
     bool appauvrir(int prix);
     void afficherInventaire();
-    void afficherStats();
     bool utiliserObjet(int index);
     bool estVivant();
 };

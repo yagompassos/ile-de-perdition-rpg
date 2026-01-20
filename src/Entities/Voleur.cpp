@@ -64,3 +64,21 @@ void Voleur::habiliteSpeciale(Ennemi *e) {
         // rien
     }
 }
+
+void Voleur::afficherStats() {
+    std::cout << std::endl << std::endl;
+    std::cout << "------------------------------------------------ "<< getNom() <<" le Vouleur. ------------------------------------------------" << std::endl << std::endl;
+    std::cout << "\tHP: " << vie << "/" << vieMax;
+    std::cout << "\tForce: " << force;
+    std::cout << "\tDexterite: " << dexterite;
+    std::cout << "\tChance:" << chance;
+    std::cout << "\tGold: " << gold << Icone::COIN;
+    std::cout << std::endl << std::endl;
+}
+
+void Voleur::afficherActionsCombat(){
+    std::cout << "================================================== ACTIONS ==================================================" << std::endl << std::endl;
+    std::cout << "\t1. Attaque \t 2. Volert \t 3. Inventaire \t 4. Fuir " << std::endl << std::endl;
+    std::cout << "=============================================================================================================" << std::endl;
+    std::cout << "\t\tOption: " ;
+}

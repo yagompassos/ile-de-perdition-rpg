@@ -2,6 +2,7 @@
 #include "Core/Case.hpp"
 #include "Core/Des.hpp"
 #include "Entities/Gobelin.hpp"
+#include "Entities/Orc.hpp"
 #include "Items/PotionSoin.hpp"
 #include "Items/Bouclier.hpp"
 #include "Items/Epee.hpp"
@@ -30,22 +31,23 @@ Plateau::Plateau(int largeur, int hauteur): largeur(largeur), hauteur(hauteur) {
                     if (tirage2 <=6)
                         e = new Gobelin();
                     else
-                        // e = new Orc();
+                        e = new Orc();
                     grille[x][y] = Case(e);
                 } else if (tirage1>5 && tirage1<=7) { // case avec objet
                     Objet *obj;
                     tirage2 = Des::D10();
                     if (tirage2 <=3)
                         obj = new PotionSoin();
-                    else if (tirage2>3 && tirage2 <=5)
+                    else if (tirage2>3 && tirage2 <=6)
                         obj = new Bouclier();
-                    else if (tirage2>5 && tirage2 <=7)
+                    else if (tirage2>6 && tirage2 <=8)
                         obj = new Epee();
-                    else if (tirage2>7 && tirage2 <=10)
+                    else if (tirage2>8 && tirage2 <=10)
                         obj = new Parchemin();
                     grille[x][y] = Case(obj);
                 } else if (tirage1 >7 && tirage1<=8) { // case avec gold
-                    grille[x][y] = Case(2);
+                    tirage2 = Des::D4();
+                    grille[x][y] = Case(tirage2);
                 } else {                            // case vide
                     grille[x][y] = Case();
                 }
@@ -78,8 +80,8 @@ bool Plateau::dedantLimits(int x, int y){
     return x >= 0 && x < largeur && y >= 0 && y < hauteur;
 }
 
-Case &Plateau::getCase(int x, int y) {
+Case *Plateau::getCase(int x, int y) {
     if (!dedantLimits(x, y))
         throw std::out_of_range("Coordonnées hors plateau");
-    return grille[x][y];
+    return &grille[x][y];
 }

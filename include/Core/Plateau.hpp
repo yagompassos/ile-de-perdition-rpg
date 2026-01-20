@@ -20,7 +20,7 @@ public:
 
     void afficher(int xJoueur, int yJoueur);
     bool dedantLimits(int x, int y); 
-    Case& getCase(int x, int y);
+    Case* getCase(int x, int y);
     void retirerObjetDeCase(int x, int y);
 };
 

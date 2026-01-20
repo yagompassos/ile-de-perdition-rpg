@@ -24,7 +24,7 @@ void Jeu::afficherPlateau(){
                 std::cout << joueur->getEmoji();
             else {
                 bool visible = estCaseVisible(x, y);
-                plateau.getCase(x, y).afficher(visible);
+                plateau.getCase(x, y)->afficher(visible);
             }
             std::cout << "   ";
 
@@ -112,7 +112,7 @@ void Jeu::bouclePreJeu() {
 void Jeu::boucleExploration() {
     int op, subOp, tirage;
     char moveCmd;
-    Case caseActuel;
+    Case *caseActuel;
 
     afficherTitre();
     joueur->afficherStats();
@@ -170,22 +170,22 @@ void Jeu::boucleExploration() {
             }
             // Verifie si la case arrivé a quelque chose
             caseActuel = plateau.getCase(xJoueur, yJoueur);
-            if (caseActuel.contientEnnemi()) {
+            if (caseActuel->contientEnnemi()) {
                 afficherTitre();
-                std::cout << std::endl<< std::endl<< std::endl << "DANGER! " << caseActuel.getEnnemi()->getRace() << "!" << std::endl;
+                std::cout << std::endl<< std::endl<< std::endl << "DANGER! " << caseActuel->getEnnemi()->getRace() << "!" << std::endl;
                 std::cout << "Appuyez sur ENTER pour entrer en combat." << std::endl;
                 std::cin.ignore();
                 getchar();
                 etatJeu = EtatJeu::Combat;
-            } else if (caseActuel.contientObjet()) {
-                Objet *obj= caseActuel.getObjet();
+            } else if (caseActuel->contientObjet()) {
+                Objet *obj= caseActuel->getObjet();
                 afficherTitre();
                 std::cout << std::endl<< std::endl<< std::endl << "Vous avez trouvez un "  << obj->getNom() << "!" << std::endl;
                 std::cout << "Appuyez sur ENTER pour ajouter au inventaire." << std::endl;
                 std::cin.ignore();
                 getchar();
                 if ( joueur->ajouterObjet(obj) ) 
-                    plateau.getCase(xJoueur, yJoueur).retirerItem();
+                    caseActuel->retirerItem();
             }
             break;
 
@@ -214,7 +214,7 @@ void Jeu::boucleExploration() {
 }
 
 void Jeu::boucleCombat(){
-    Ennemi *ennemi = plateau.getCase(xJoueur, yJoueur).getEnnemi();
+    Ennemi *ennemi = plateau.getCase(xJoueur, yJoueur)->getEnnemi();
     int op, tirage, recompense;
 
     do {
@@ -224,7 +224,7 @@ void Jeu::boucleCombat(){
             recompense = ennemi->getRecompenseOr();
             etatJeu = EtatJeu::Exploration;
             joueur->enricher(recompense);
-            plateau.getCase(xJoueur, yJoueur).retirerEnnemi();
+            plateau.getCase(xJoueur, yJoueur)->retirerEnnemi();
             std::cout << std::endl;
             std::cout << "\tYou killed them all!" << std::endl;
             std::cout << "\t+" << recompense << Icone::GOLD << std::endl;

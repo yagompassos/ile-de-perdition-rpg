@@ -1,13 +1,13 @@
-#ifndef POTIONSOIN_H
-#define POTIONSOIN_H
+#ifndef EPEE_H
+#define EPEE_H
 
 #include "Items/Objet.hpp"
 
 class Personnage;
 
-class PotionSoin : public Objet {
+class Epee : public Objet {
 public:
-    PotionSoin();
+    Epee();
 
     void utiliser(Personnage* hero) override;
     std::string getEmoji() const override;

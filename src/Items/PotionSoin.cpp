@@ -3,12 +3,12 @@
 #include "Core/icones.hpp"
 #include <iostream>
 
-PotionSoin::PotionSoin() : Objet("Potion de Soin", 2){}
+PotionSoin::PotionSoin() : Objet("Potion de Soin"){}
 
 void PotionSoin::utiliser(Personnage* hero) {
     hero->curer(20);
 }
 
-void PotionSoin::afficher() {
-    std::cout << Icone::POTION;
+std::string PotionSoin::getEmoji() const {
+    return Icone::POTION;
 }

@@ -9,9 +9,9 @@ class Objet {
 protected:
     std::string nom;
     // L'objet n'as pas un prix! Qui define ça c'est le marchand
-    int prix;
+    // int prix;
 public:
-    Objet(std::string nom, int prix);
+    Objet(std::string nom);
     virtual ~Objet() = default;
 
     // getters
@@ -20,7 +20,7 @@ public:
 
     // methods
     virtual void utiliser(Personnage* hero);
-    virtual void afficher();
+    virtual std::string getEmoji() const = 0;
 };
 
 #endif

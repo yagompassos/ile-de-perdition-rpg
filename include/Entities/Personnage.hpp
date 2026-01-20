@@ -28,6 +28,7 @@ protected:
     int dexterite;
     int chance;
     int gold;
+    bool specialPret;
     std::string nom;
     std::vector<Objet*> inventaire;
 
@@ -45,9 +46,14 @@ public:
     int getDexterite();
     int getChance();
     int getGold();
+    bool estSpecialPret();
     std::string getNom();
     
-    void setNom(std::string nouveauNom);
+    void setNom (std::string nouveauNom);
+    void setVieMax (int nouvelleVieMax);
+    void setForce (int nouvelleForce);
+    void setPouvoir (int nouveauPouvoir);
+    void setSpecialPret(bool special);
     
     // methods
     virtual void attaqueBasique(Ennemi* e);

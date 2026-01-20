@@ -4,17 +4,24 @@
 #include "Core/Des.hpp"
 
 Personnage::Personnage(){};                                                                                                                                // Here we create a 4 size pointer vector with all null pointers
-Personnage::Personnage(int vm, int forc, int pouv, int dex, int cha, int gld, int szInv) : vieMax(vm), vie(vm), force(forc), pouvoir(pouv), dexterite(dex), chance(cha), gold(gld), inventaire(szInv, nullptr) {}
+Personnage::Personnage(int vm, int forc, int pouv, int dex, int cha, int gld, int szInv) : vieMax(vm), vie(vm), force(forc), pouvoir(pouv), dexterite(dex), chance(cha), gold(gld), inventaire(szInv, nullptr), specialPret(true) {}
 // Personnage::~Personnage(){};
 
 // getters
 int Personnage::getVieMax() { return vieMax; }
 int Personnage::getVie() { return vie; }
+int Personnage::getForce() {return force;}
+int Personnage::getPouvoir() { return pouvoir; }
 int Personnage::getGold() { return gold; }
+bool Personnage::estSpecialPret() { return specialPret; }
 std::string Personnage::getNom() { return nom; }
 
 // setters
-void Personnage::setNom(std::string nouveauNom) { nom = nouveauNom;}
+void Personnage::setNom(std::string nouveauNom) { nom = nouveauNom; }
+void Personnage::setVieMax(int nouvelleVieMax) { vieMax = nouvelleVieMax; }
+void Personnage::setForce(int nouvelleForce) { force = nouvelleForce; }
+void Personnage::setPouvoir(int nouveauPouvoir) { pouvoir = nouveauPouvoir; }
+void Personnage::setSpecialPret(bool special) { specialPret = special; }
 
 // to override
 void Personnage::attaqueBasique(Ennemi* e){}
@@ -89,7 +96,7 @@ void Personnage::afficherInventaire(){
         if (inventaire[i]==nullptr)
         std::cout << " ";
         else 
-        inventaire[i]->afficher();
+        std::cout << inventaire[i]->getEmoji();
         std::cout << " | ";
     }
     std::cout << std::endl << std::endl;
